@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>TÜRKİYE&#39;DEKİ TARİHİ KONUMLAR</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TÜRKİYE'DEKİ TARİHİ KONUMLAR</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    body {
+      display: flex;
+      margin: 0;
+      height: 100vh;
+    }
+    #map {
+      flex: 1;
+      height: 100%; /* Tam yükseklik */
+    }
+    #sidebar {
+      width: 300px;
+      background: #f0f0f0;
+      padding: 10px;
+      overflow-y: auto;
+    }
+    button {
+      margin: 5px 0;
+      padding: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div id="sidebar">
+    <h1>TÜRKİYE'DEKİ TARİHİ KONUMLAR</h1>
+    <div>
+      <label for="emergency-location">Şehir Seçin:</label>
+      <select id="emergency-location">
+        <option value="adana" data-lat="36.98542" data-lng="35.32502">01 Adana</option>
+        <option value="adiyaman" data-lat="37.76299" data-lng="38.27730">02 Adıyaman</option>
+        <option value="afyonkarahisar" data-lat="38.75622" data-lng="30.53785">03 Afyonkarahisar</option>
+        <option value="agri" data-lat="39.71899" data-lng="43.04766">04 Ağrı</option>
+        <option value="amasya" data-lat="40.65631" data-lng="35.83707">05 Amasya</option>
+        <option value="ankara" data-lat="39.94293" data-lng="32.86048">06 Ankara</option>
+        <option value="antalya" data-lat="36.89613" data-lng="30.71308">07 Antalya</option>
+        <option value="artvin" data-lat="41.18131" data-lng="41.82054">08 Artvin</option>
+        <option value="aydin" data-lat="37.83804" data-lng="27.84557">09 Aydın</option>
+        <option value="balikesir" data-lat="39.64488" data-lng="27.88536">10 Balıkesir</option>
+        <option value="bilecik" data-lat="40.14296" data-lng="29.97916">11 Bilecik</option>
+        <option value="bingol" data-lat="38.88472" data-lng="40.49639">12 Bingöl</option>
+        <option value="bitlis" data-lat="38.40066" data-lng="42.10897">13 Bitlis</option>
+        <option value="bolu" data-lat="40.73201" data-lng="31.60705">14 Bolu</option>
+        <option value="burdur" data-lat="37.71829" data-lng="30.28225">15 Burdur</option>
+        <option value="bursa" data-lat="40.18282" data-lng="29.06615">16 Bursa</option>
+        <option value="canakkale" data-lat="40.14678" data-lng="26.40822">17 Çanakkale</option>
+        <option value="cankiri" data-lat="40.60000" data-lng="33.61654">18 Çankırı</option>
+        <option value="corum" data-lat="40.54985" data-lng="34.95369">19 Çorum</option>
+        <option value="denizli" data-lat="37.78303" data-lng="29.09625">20 Denizli</option>
+        <option value="diyarbakir" data-lat="37.91441" data-lng="40.23063">21 Diyarbakır</option>
+        <option value="edirne" data-lat="41.67591" data-lng="26.55361">22 Edirne</option>
+        <option value="elazig" data-lat="38.68097" data-lng="39.22640">23 Elâzığ</option>
+        <option value="erzincan" data-lat="39.75000" data-lng="39.50000">24 Erzincan</option>
+        <option value="erzurum" data-lat="39.90432" data-lng="41.26789">25 Erzurum</option>
+        <option value="eskisehir" data-lat="39.78430" data-lng="30.51922">26 Eskişehir</option>
+        <option value="gaziantep" data-lat="37.06293" data-lng="37.37816">27 Gaziantep</option>
+        <option value="giresun" data-lat="40.91281" data-lng="38.38953">28 Giresun</option>
+        <option value="gumushane" data-lat="40.46028" data-lng="39.48139">29 Gümüşhane</option>
+        <option value="hakkari" data-lat="37.58333" data-lng="43.73333">30 Hakkâri</option>
+        <option value="hatay" data-lat="36.20210" data-lng="36.16210">31 Hatay</option>
+        <option value="isparta" data-lat="37.76360" data-lng="30.55890">32 Isparta</option>
+        <option value="mersin" data-lat="36.80050" data-lng="34.64040">33 Mersin</option>
+        <option value="istanbul" data-lat="41.00824" data-lng="28.97836">34 İstanbul</option>
+        <option value="izmir" data-lat="38.41010" data-lng="27.12970">35 İzmir</option>
+        <option value="kars" data-lat="40.60560" data-lng="43.10040">36 Kars</option>
+        <option value="kastamonu" data-lat="41.37230" data-lng="33.77190">37 Kastamonu</option>
+        <option value="kayseri" data-lat="38.72290" data-lng="35.48010">38 Kayseri</option>
+        <option value="kirklareli" data-lat="41.73780" data-lng="27.22850">39 Kırklareli</option>
+        <option value="kirsehir" data-lat="39.14800" data-lng="34.16400">40 Kırşehir</option>
+        <option value="kocaeli" data-lat="40.77320" data-lng="29.95070">41 Kocaeli</option>
+        <option value="konya" data-lat="37.87040" data-lng="32.51100">42 Konya</option>
+        <option value="kutahya" data-lat="39.42170" data-lng="29.98790">43 Kütahya</option>
+        <option value="malatya" data-lat="38.31430" data-lng="38.34750">44 Malatya</option>
+        <option value="manisa" data-lat="38.62220" data-lng="27.42970">45 Manisa</option>
+        <option value="kahramanmaras" data-lat="36.92830" data-lng="37.58940">46 Kahramanmaraş</option>
+        <option value="mardin" data-lat="37.31360" data-lng="40.75840">47 Mardin</option>
+        <option value="mugla" data-lat="37.21960" data-lng="28.36580">48 Muğla</option>
+        <option value="mus" data-lat="38.73340" data-lng="41.48780">49 Muş</option>
+        <option value="nevsehir" data-lat="38.62500" data-lng="34.71278">50 Nevşehir</option>
+        <option value="nigde" data-lat="37.96530" data-lng="34.68510">51 Niğde</option>
+        <option value="ordu" data-lat="40.98810" data-lng="37.87400">52 Ordu</option>
+        <option value="rize" data-lat="41.02240" data-lng="40.52140">53 Rize</option>
+        <option value="sakarya" data-lat="40.74890" data-lng="30.37930">54 Sakarya</option>
+        <option value="samsun" data-lat="41.28710" data-lng="36.32340">55 Samsun</option>
+        <option value="siirt" data-lat="37.92510" data-lng="41.94420">56 Siirt</option>
+        <option value="sinop" data-lat="42.02690" data-lng="35.16000">57 Sinop</option>
+        <option value="sivas" data-lat="39.75150" data-lng="37.01720">58 Sivas</option>
+        <option value="tekirdag" data-lat="40.97920" data-lng="27.51440">59 Tekirdağ</option>
+        <option value="tokat" data-lat="40.30630" data-lng="36.55590">60 Tokat</option>
+        <option value="trabzon" data-lat="41.00610" data-lng="39.71910">61 Trabzon</option>
+        <option value="tunceli" data-lat="39.10690" data-lng="39.54910">62 Tunceli</option>
+        <option value="sanliurfa" data-lat="37.15120" data-lng="38.79220">63 Şanlıurfa</option>
+        <option value="usak" data-lat="38.67160" data-lng="29.40560">64 Uşak</option>
+        <option value="van" data-lat="38.49700" data-lng="43.38160">65 Van</option>
+        <option value="yozgat" data-lat="39.82220" data-lng="34.80820">66 Yozgat</option>
+        <option value="zonguldak" data-lat="41.45420" data-lng="31.79800">67 Zonguldak</option>
+        <option value="aksaray" data-lat="38.36863" data-lng="34.02970">68 Aksaray</option>
+        <option value="bayburt" data-lat="40.22840" data-lng="40.25870">69 Bayburt</option>
+        <option value="karaman" data-lat="37.18140" data-lng="33.22190">70 Karaman</option>
+        <option value="kirikkale" data-lat="39.84170" data-lng="33.51600">71 Kırıkkale</option>
+        <option value="batman" data-lat="37.87830" data-lng="41.12350">72 Batman</option>
+        <option value="sirnak" data-lat="37.52280" data-lng="42.46080">73 Şırnak</option>
+        <option value="bartin" data-lat="41.63640" data-lng="32.33780">74 Bartın</option>
+        <option value="ardahan" data-lat="41.11060" data-lng="42.70250">75 Ardahan</option>
+        <option value="igdir" data-lat="39.91930" data-lng="44.04550">76 Iğdır</option>
+        <option value="yalova" data-lat="40.65600" data-lng="29.27120">77 Yalova</option>
+        <option value="karabuk" data-lat="41.19820" data-lng="32.62640">78 Karabük</option>
+        <option value="kilis" data-lat="36.71760" data-lng="37.11390">79 Kilis</option>
+        <option value="osmaniye" data-lat="36.24850" data-lng="37.07430">80 Osmaniye</option>
+        <option value="duzce" data-lat="40.83930" data-lng="31.16390">81 Düzce</option>
+      </select>
+    </div>
+    <div>
+      <label for="category-select">Kategori Seçin:</label>
+      <select id="category-select">
+        <option value="all">Tüm Kategoriler</option>
+        <option value="ancient">Eski Çağlar</option>
+        <option value="ottoman">Osmanlı-Selçuklu Dönemi</option>
+      </select>
+    </div>
+    <button id="draw-emergency-circle">Haritayı Güncelle</button>
+    <button id="clear-map">Haritayı Temizle</button>
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    const map = L.map('map').setView([39.0, 35.0], 6);
+    const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    let historicalMarkers = [];
+    let emergencyCircle;
+
+    // Tarihi medeniyetler ve yapıları
+    const historicalSites = [
+     { name: "Hattuşaş (Hitit)", lat: 40.0225, lng: 34.6550, category: "ancient" },
+  { name: "Alacahöyük (Hitit)", lat: 40.1406, lng: 34.8442, category: "ancient" },
+  { name: "Cudi Dağı (Mezopotamya/Urartu civarı)", lat: 37.3684, lng: 42.4986, category: "ancient" },
+  { name: "Şapinuva (Hitit)", lat: 40.0700, lng: 35.3800, category: "ancient" },
+  { name: "Çorum Yazılıkaya (Hitit)", lat: 40.0266, lng: 34.6147, category: "ancient" },
+  { name: "Urartu Kalıntıları (Van)", lat: 38.4192, lng: 43.3633, category: "ancient" },
+  { name: "Ayanis Kalesi (Urartu)", lat: 38.5115, lng: 43.4824, category: "ancient" },
+  { name: "Altıntepe (Urartu)", lat: 39.5761, lng: 42.0186, category: "ancient" },
+  { name: "Efes Antik Kenti (Roma)", lat: 37.9437, lng: 27.3660, category: "ancient" },
+  { name: "Hierapolis (Roma)", lat: 37.9265, lng: 29.1222, category: "ancient" },
+  { name: "Aspendos (Roma)", lat: 36.9383, lng: 31.1750, category: "ancient" },
+  { name: "Perge (Roma)", lat: 36.9629, lng: 30.8494, category: "ancient" },
+  { name: "Side Antik Kenti (Roma)", lat: 36.7664, lng: 31.3909, category: "ancient" },
+  { name: "Gordion (Frig)", lat: 39.9790, lng: 32.9890, category: "ancient" },
+  { name: "Aizanoi (Frig)", lat: 39.1880, lng: 29.3910, category: "ancient" },
+  { name: "Çatalhöyük (Neolitik)", lat: 37.6730, lng: 32.8310, category: "ancient" },
+  { name: "Göbekli Tepe (Neolitik)", lat: 37.2231, lng: 38.9226, category: "ancient" },
+  { name: "Karahan Tepe (Neolitik)", lat: 37.3450, lng: 39.2240, category: "ancient" },
+  { name: "Nemrut Dağı (Kommagene)", lat: 37.8833, lng: 38.7333, category: "ancient" },
+  { name: "Arsameia (Kommagene)", lat: 37.8692, lng: 38.6189, category: "ancient" },
+  { name: "Milet Antik Kenti", lat: 37.5250, lng: 27.2533, category: "ancient" },
+  { name: "Didim Apollon Tapınağı", lat: 37.3879, lng: 27.2569, category: "ancient" },
+  { name: "Priene Antik Kenti", lat: 37.6597, lng: 27.2953, category: "ancient" },
+  { name: "Bergama (Pergamon Krallığı)", lat: 39.1200, lng: 27.1800, category: "ancient" },
+  { name: "Sardes (Lidya)", lat: 38.5010, lng: 28.0070, category: "ancient" },
+  { name: "Asur Kalıntıları (Diyarbakır)", lat: 37.9144, lng: 40.2306, category: "ancient" },
+  { name: "Zeugma (Kommagene/Roma)", lat: 37.0631, lng: 37.8594, category: "ancient" },
+  { name: "Ani Harabeleri (Ermeni Krallığı)", lat: 40.5083, lng: 43.5725, category: "ancient" },
+  { name: "Harput (Artuklu-Beylik)", lat: 38.6747, lng: 39.2283, category: "ancient" },
+  { name: "Ereğli (Karamanoğulları)", lat: 37.4820, lng: 32.4240, category: "ancient" },
+  { name: "Truva (Troya)", lat: 39.9575, lng: 26.2380, category: "ancient" },
+  { name: "Assos (Antik Yunan)", lat: 39.4894, lng: 26.3375, category: "ancient" },
+  { name: "Tarsus (Roma)", lat: 36.9177, lng: 34.8928, category: "ancient" },
+  { name: "Laodikeia (Roma)", lat: 37.8290, lng: 29.0986, category: "ancient" },
+  { name: "Sagalassos (Pisidia)", lat: 37.6852, lng: 30.5151, category: "ancient" },
+  { name: "Patara (Likya)", lat: 36.2732, lng: 29.3168, category: "ancient" },
+  { name: "Xanthos (Likya)", lat: 36.3449, lng: 29.3220, category: "ancient" },
+  { name: "Olympos (Likya)", lat: 36.4005, lng: 30.4734, category: "ancient" },
+  { name: "Myra (Likya)", lat: 36.2453, lng: 29.9914, category: "ancient" },
+  { name: "Knidos (Dor)", lat: 36.7008, lng: 27.3757, category: "ancient" },
+  { name: "Anemurium (Roma)", lat: 36.0173, lng: 32.8066, category: "ancient" },
+  { name: "Troyapolis (Roma)", lat: 38.5933, lng: 28.9894, category: "ancient" },
+  { name: "İznik (Bitinya)", lat: 40.4297, lng: 29.7215, category: "ancient" },
+  { name: "Nysa Antik Kenti (Helenistik/Roma)", lat: 37.8885, lng: 28.2057, category: "ancient" },
+  { name: "Stratonikeia (Karia)", lat: 37.3494, lng: 28.1477, category: "ancient" },
+  { name: "Herakleia Latmos (Karia)", lat: 37.4176, lng: 27.4214, category: "ancient" },
+  { name: "Mylasa (Karia)", lat: 37.3093, lng: 27.7836, category: "ancient" },
+  { name: "Magnesia ad Maeandrum (İyon)", lat: 37.8494, lng: 27.5213, category: "ancient" },
+  { name: "Teos (İyon)", lat: 38.1883, lng: 26.7764, category: "ancient" },
+  { name: "Erythrai (İyon)", lat: 38.2935, lng: 26.3933, category: "ancient" },
+  { name: "Clazomenae (İyon)", lat: 38.3753, lng: 26.7847, category: "ancient" },
+  { name: "Larisa (Aiol)", lat: 39.1127, lng: 27.0550, category: "ancient" },
+  { name: "Pitane (Aiol)", lat: 38.9783, lng: 26.9272, category: "ancient" },
+  { name: "Aigai (Aiol)", lat: 38.9386, lng: 27.1824, category: "ancient" },
+  { name: "Tlos (Likya)", lat: 36.6017, lng: 29.3561, category: "ancient" },
+  { name: "Letoon (Likya)", lat: 36.3151, lng: 29.2844, category: "ancient" },
+  { name: "Pinara (Likya)", lat: 36.5872, lng: 29.3294, category: "ancient" },
+  { name: "Termessos (Pisidia)", lat: 37.0152, lng: 30.4653, category: "ancient" },
+  { name: "Eflatunpınar (Hitit Su Anıtı)", lat: 38.3169, lng: 31.6239, category: "ancient" },
+  { name: "Şanlıurfa Kalesi (Osmanlı/İslam öncesi)", lat: 37.1531, lng: 38.7919, category: "ancient" },
+  { name: "Amorium (Bizans)", lat: 39.0342, lng: 31.4013, category: "ancient" },
+  { name: "Afrodisias (Roma)", lat: 37.7081, lng: 28.7235, category: "ancient" },
+  { name: "Kanik (Gasga)", lat: 41.2000, lng: 35.5000, category: "ancient" },
+  { name: "Yassıhöyük (Gordion/Frig)", lat: 39.6561, lng: 31.9864, category: "ancient" },
+  { name: "Tilmen Höyük (Yamhad/Hitit)", lat: 37.0484, lng: 37.9970, category: "ancient" },
+  { name: "Kültepe (Kaniş-Karum, Asur Ticaret Kolonileri)", lat: 38.8578, lng: 35.6861, category: "ancient" },
+  { name: "Zincirli Höyük (Sam’al)", lat: 37.1039, lng: 36.7519, category: "ancient" },
+  { name: "Arslantepe Höyüğü (Urartu/Geç Kalkolitik)", lat: 38.3683, lng: 38.3547, category: "ancient" },
+  { name: "Norşuntepe (Geç Tunç Çağı)", lat: 38.6900, lng: 39.6200, category: "ancient" },
+  { name: "Çayönü (Neolitik)", lat: 38.2081, lng: 39.9567, category: "ancient" },
+  { name: "Tilkitepe (Van Neolitik)", lat: 38.4432, lng: 43.3804, category: "ancient" },
+  { name: "İkiztepe Höyüğü (Karadeniz Kalkolitik)", lat: 41.5447, lng: 36.1011, category: "ancient" },
+  { name: "Oluz Höyük (Hitit/Frig/Pers)", lat: 40.7784, lng: 36.4381, category: "ancient" },
+  { name: "Liman Tepe (Ege Tunç Çağı)", lat: 38.4445, lng: 27.0111, category: "ancient" },
+  { name: "Bademgediği Tepe (Myken, İyon)", lat: 38.3681, lng: 26.9464, category: "ancient" },
+  { name: "Panaztepe (Aiol)", lat: 38.5989, lng: 26.8986, category: "ancient" },
+  { name: "Claros (Apollon Tapınağı)", lat: 38.0067, lng: 27.2367, category: "ancient" },
+  { name: "Iasos (Karia)", lat: 37.3292, lng: 27.5850, category: "ancient" },
+  { name: "Troy II (Tunç Çağı)", lat: 39.9575, lng: 26.2380, category: "ancient" },
+  { name: "Yumuktepe (Neolitik-Tunç Çağı)", lat: 36.7915, lng: 34.6136, category: "ancient" },
+  { name: "Tarsus Gözlükule Höyüğü", lat: 36.9170, lng: 34.8920, category: "ancient" },
+  { name: "Karahöyük (Konya, Geç Tunç Çağı)", lat: 37.9294, lng: 32.4897, category: "ancient" },
+  { name: "Domuztepe (Geç Neolitik)", lat: 37.3136, lng: 36.9372, category: "ancient" },
+  { name: "İmamoğlu Höyük (Adana Neolitik)", lat: 37.2422, lng: 35.6483, category: "ancient" },
+  { name: "Uşaklı Höyük (Hitit)", lat: 40.0671, lng: 35.7902, category: "ancient" },
+  { name: "Çadır Höyük (Hitit/Frig)", lat: 39.3451, lng: 35.0891, category: "ancient" },
+  { name: "Boğazköy-Alacahöyük Yolu (Kutsal Yol)", lat: 40.0617, lng: 34.6277, category: "ancient" },
+  { name: "Kayalıpınar (Hitit)", lat: 39.7494, lng: 36.0953, category: "ancient" },
+  { name: "Malazgirt Kalesi (Selçuklu/Erken İslam)", lat: 39.1427, lng: 42.5419, category: "ancient" },
+  { name: "Samsat Höyük (Kommagene)", lat: 37.5812, lng: 38.4773, category: "ancient" },
+  { name: "Anazarbos (Kilikya Roma)", lat: 37.2506, lng: 35.9583, category: "ancient" },
+  { name: "Germanicia (Kahramanmaraş Roma Mozaikleri)", lat: 37.5735, lng: 36.9375, category: "ancient" },
+  { name: "Zerzevan Kalesi (Roma Garnizonu)", lat: 37.8447, lng: 40.5631, category: "ancient" },
+  { name: "Karkamış (Asur-Hitit)", lat: 36.8261, lng: 38.0125, category: "ancient" },
+  { name: "Dülük Antik Kenti (Doliche)", lat: 37.1231, lng: 37.3525, category: "ancient" },
+  { name: "Oylum Höyük (Geç Tunç Çağı)", lat: 36.9639, lng: 37.5033, category: "ancient" },
+  { name: "Kanlıgeçit Höyüğü (Erken Tunç Çağı)", lat: 40.1419, lng: 26.4058, category: "ancient" },
+  { name: "İzmir Agorası (Roma)", lat: 38.4221, lng: 27.1446, category: "ancient" },
+  { name: "Samsun Amisos Tepesi (Helenistik/Roma)", lat: 41.3081, lng: 36.2794, category: "ancient" },
+  { name: "Sinop Balatlar (Bizans)", lat: 42.0285, lng: 35.1515, category: "ancient" },
+  { name: "Hadrianopolis (Karabük, Roma)", lat: 41.0922, lng: 32.6922, category: "ancient" },
+  { name: "Amasya Kral Kaya Mezarları", lat: 40.6533, lng: 35.8339, category: "ancient" },
+  { name: "Kastabala (Kilikya)", lat: 37.0900, lng: 35.8869, category: "ancient" },
+  { name: "İstanbul (Bizans/Doğu Roma/Osmanlı)", lat: 41.0082, lng: 28.9784, category: "ancient" },
+  { name: "Myndos (Karia)", lat: 37.0420, lng: 27.4295, category: "ancient" },
+  { name: "Beçin Kalesi (Menteşeoğulları)", lat: 37.2997, lng: 27.7586, category: "ancient" },
+  { name: "Kayseri Kültepe (Asur Ticaret Kolonileri)", lat: 38.8578, lng: 35.6861, category: "ancient" },
+  { name: "İzmir Teos Antik Kenti", lat: 38.1845, lng: 26.7760, category: "ancient" },
+  { name: "Lagina (Karia)", lat: 37.4400, lng: 28.0970, category: "ancient" },
+  { name: "Euromos (Karia)", lat: 37.4345, lng: 27.6864, category: "ancient" },
+  { name: "Tralleis (Aydın)", lat: 37.8698, lng: 27.8653, category: "ancient" },
+  { name: "Philadelphia (Alaşehir, Roma)", lat: 38.3557, lng: 28.5195, category: "ancient" },
+  { name: "Sebaste (Sivaslı)", lat: 38.5040, lng: 29.5833, category: "ancient" },
+  { name: "Kibyra (Pisidia)", lat: 37.4435, lng: 29.6078, category: "ancient" },
+  { name: "Oenoanda (Pisidia)", lat: 37.0770, lng: 29.4190, category: "ancient" },
+  { name: "Boubon (Likya)", lat: 37.0340, lng: 29.5830, category: "ancient" },
+  { name: "Rhodiapolis (Likya)", lat: 36.3632, lng: 30.4916, category: "ancient" },
+  { name: "Arykanda (Likya)", lat: 36.5000, lng: 30.1100, category: "ancient" },
+  { name: "Adada (Pisidia)", lat: 37.5597, lng: 30.9831, category: "ancient" },
+  { name: "Seleukeia Sidera (Pisidia)", lat: 37.6983, lng: 30.5847, category: "ancient" },
+  { name: "Comana Pontica (Tokat)", lat: 40.2980, lng: 36.5030, category: "ancient" },
+  { name: "Neoklaudiopolis (Vezirköprü)", lat: 41.1371, lng: 35.4503, category: "ancient" },
+  { name: "Pompeiopolis (Kastamonu)", lat: 41.4057, lng: 33.7756, category: "ancient" },
+  { name: "Hadrianaupolis (Eskipazar, Karabük)", lat: 41.0920, lng: 32.6920, category: "ancient" },
+  { name: "Gökçeada Yeni Bademli Höyük", lat: 40.1691, lng: 25.8135, category: "ancient" },
+  { name: "Antandros Antik Kenti (Altınoluk)", lat: 39.5769, lng: 26.8132, category: "ancient" },
+  { name: "Parion (Kemer, Biga)", lat: 40.4414, lng: 26.6472, category: "ancient" },
+  { name: "Alexandria Troas", lat: 39.7836, lng: 26.1675, category: "ancient" },
+  { name: "Apollonia ad Rhyndacum (Gölyazı)", lat: 40.2094, lng: 28.7255, category: "ancient" },
+  { name: "Kyzikos (Erdek)", lat: 40.3814, lng: 27.8861, category: "ancient" },
+  { name: "Perinthos/Herakleia (Marmara Ereğlisi)", lat: 40.9748, lng: 27.9573, category: "ancient" },
+  { name: "Nicaea (İznik)", lat: 40.4260, lng: 29.7207, category: "ancient" },
+  { name: "Apameia Kibotos (Dinar)", lat: 38.0657, lng: 30.1580, category: "ancient" },
+  { name: "Aigai (Manisa)", lat: 38.9375, lng: 27.1742, category: "ancient" },
+  { name: "Kırşehir Kalehöyük (Asur Kolonileri)", lat: 39.1715, lng: 34.1598, category: "ancient" },
+  { name: "Bayraklı Höyük (Eski Smyrna)", lat: 38.4553, lng: 27.1647, category: "ancient" },
+  { name: "Zile Kalesi (Pontus)", lat: 40.3075, lng: 35.8895, category: "ancient" },
+  { name: "Niksar (Pontus)", lat: 40.5897, lng: 36.9591, category: "ancient" },
+  { name: "Erzurum Aziziye Tabyası (Osmanlı-Rus Harbi)", lat: 39.9086, lng: 41.2790, category: "ancient" },
+  { name: "Bayburt Kalesi (Ortaçağ)", lat: 40.2627, lng: 40.2241, category: "ancient" },
+  { name: "İshak Paşa Sarayı (Osmanlı)", lat: 39.5176, lng: 44.1507, category: "ancient" },
+  { name: "Ani Katedrali (Ortaçağ)", lat: 40.5082, lng: 43.5716, category: "ancient" },
+  { name: "Ahlat Mezar Taşları (Selçuklu)", lat: 38.7492, lng: 42.4953, category: "ancient" },
+  { name: "Divriği Ulu Cami ve Darüşşifası", lat: 39.3739, lng: 38.1204, category: "ancient" },
+  { name: "Sille Köyü (Konya, Bizans)", lat: 37.8978, lng: 32.4169, category: "ancient" },
+  { name: "Akdamar Adası (Ermeni Kilisesi)", lat: 38.3283, lng: 43.0581, category: "ancient" },
+  { name: "Muş Kayalıdere Kalesi (Urartu)", lat: 38.7394, lng: 41.5916, category: "ancient" },
+  { name: "Tuşpa (Urartu, Van Kalesi)", lat: 38.5012, lng: 43.3753, category: "ancient" },
+  { name: "Çemişgezek Kalesi (Artuklu)", lat: 39.0635, lng: 38.9135, category: "ancient" },
+  { name: "Hozat Kaleleri (Dersim)", lat: 39.1012, lng: 39.2345, category: "ancient" },
+  { name: "Güvercinlik Kalesi (Gevaş, Urartu)", lat: 38.3450, lng: 43.1481, category: "ancient" },
+  { name: "Kayalıdere Açıkhava Tapınağı (Muş)", lat: 38.7403, lng: 41.5860, category: "ancient" },
+  { name: "Altıntepe Höyüğü (Erzincan, Urartu)", lat: 39.5696, lng: 39.5348, category: "ancient" },
+  { name: "Ergani Çayönü (Neolitik)", lat: 38.2125, lng: 39.7694, category: "ancient" },
+  { name: "Gölyazı (Antik Apollonia)", lat: 40.2095, lng: 28.7260, category: "ancient" },
+  { name: "Konuralp (Prusias ad Hypium)", lat: 40.8914, lng: 29.9053, category: "ancient" },
+  { name: "Soli Pompeiopolis (Mersin)", lat: 36.7488, lng: 34.4947, category: "ancient" },
+  { name: "Silifke Kalesi (Roma/Bizans)", lat: 36.3775, lng: 33.9341, category: "ancient" },
+  { name: "Uzuncaburç (Diokaesareia)", lat: 36.5936, lng: 33.9183, category: "ancient" },
+  { name: "Olba Antik Kenti", lat: 36.5973, lng: 33.9266, category: "ancient" },
+  { name: "Mamure Kalesi (Erken İslam)", lat: 36.1428, lng: 32.8883, category: "ancient" },
+  { name: "Germenicia Mozaikleri (Kahramanmaraş)", lat: 37.5770, lng: 36.9384, category: "ancient" },
+  { name: "Corycus (Kızkalesi)", lat: 36.4567, lng: 34.1453, category: "ancient" },
+  { name: "Sardis Artemis Tapınağı", lat: 38.4889, lng: 28.0481, category: "ancient" },
+  { name: "Kibyra Antik Tiyatrosu", lat: 37.4423, lng: 29.6065, category: "ancient" },
+  { name: "Korydalla (Likya)", lat: 36.3036, lng: 30.0222, category: "ancient" },
+  { name: "Limyra (Likya)", lat: 36.3560, lng: 30.0862, category: "ancient" },
+  { name: "Tymnessos (Likya)", lat: 36.3583, lng: 30.0908, category: "ancient" },
+  { name: "Pednelissos (Pisidia)", lat: 37.2102, lng: 30.7554, category: "ancient" },
+  { name: "Selge Antik Kenti (Pisidia)", lat: 37.0903, lng: 31.1789, category: "ancient" },
+  { name: "Notion (İyon)", lat: 38.0133, lng: 27.2173, category: "ancient" },
+  { name: "Larisa (Turgutlu)", lat: 38.5110, lng: 27.7250, category: "ancient" },
+  { name: "Thyateira (Akhisar)", lat: 38.9212, lng: 27.8395, category: "ancient" },
+  { name: "Iasos (Antik Balık Pazarı)", lat: 37.3323, lng: 27.5857, category: "ancient" },
+  { name: "Panamara (Muğla)", lat: 37.3700, lng: 28.0770, category: "ancient" },
+  { name: "Sebastopolis (Sulusaray)", lat: 40.1067, lng: 36.0847, category: "ancient" },
+  { name: "Amastris (Amasra)", lat: 41.7473, lng: 32.3874, category: "ancient" },
+  { name: "Tios (Filyos)", lat: 41.4480, lng: 32.0216, category: "ancient" },
+  { name: "Herakleia Pontika (Karadeniz Ereğlisi)", lat: 41.2866, lng: 31.4183, category: "ancient" },
+  { name: "İnebolu (Pontus)", lat: 41.9780, lng: 33.7633, category: "ancient" },
+  { name: "Giresun Kalesi", lat: 40.9128, lng: 38.3877, category: "ancient" },
+  { name: "Ordu Kurul Kalesi (Helenistik)", lat: 40.9052, lng: 37.8976, category: "ancient" },
+  { name: "Trabzon Ayasofya (Bizans)", lat: 41.0083, lng: 39.7094, category: "ancient" },
+  { name: "Sumela Manastırı (Bizans)", lat: 40.6908, lng: 39.7025, category: "ancient" },
+  { name: "Pessinus (Galatya)", lat: 39.4944, lng: 31.7347, category: "ancient" },
+  { name: "Gerga (Karia)", lat: 37.5094, lng: 28.2261, category: "ancient" },
+  { name: "Lethe Antik Kenti (Antalya)", lat: 36.5225, lng: 30.4422, category: "ancient" },
+  { name: "Keretapa (Pisidia)", lat: 37.6291, lng: 30.5110, category: "ancient" },
+  { name: "Trapezopolis (Denizli)", lat: 37.8382, lng: 29.1064, category: "ancient" },
+  { name: "Sebaste (Sivaslı, Uşak)", lat: 38.5060, lng: 29.5865, category: "ancient" },
+  { name: "Sinope (Sinop Antik Kenti)", lat: 42.0266, lng: 35.1512, category: "ancient" },
+  { name: "Tabal Bölgesi Yerleşimi (Niğde Bölgesi)", lat: 37.9773, lng: 34.6855, category: "ancient" },
+  { name: "Purushanda (Karadağ civarı)", lat: 38.9700, lng: 32.3700, category: "ancient" },
+  { name: "Muşar Tepesi (Doğu Anadolu)", lat: 38.7650, lng: 41.7750, category: "ancient" },
+  { name: "Kuşaklı Höyük (Sivas, Hitit)", lat: 39.7100, lng: 37.1900, category: "ancient" },
+  { name: "Zernaki Tepe (Muş)", lat: 38.7436, lng: 41.5136, category: "ancient" },
+  { name: "Kayalıpınar (Sivas, Hitit Ticaret Merkezi)", lat: 39.7600, lng: 36.1100, category: "ancient" },
+  { name: "Üçtepe (Ağrı, Urartu)", lat: 39.9200, lng: 43.0500, category: "ancient" },
+  { name: "Toprakkale (Urartu)", lat: 38.6700, lng: 43.3700, category: "ancient" },
+  { name: "Patnos Aznavur Tepe (Urartu)", lat: 39.2300, lng: 42.8600, category: "ancient" },
+  { name: "Başören (Urartu)", lat: 38.3400, lng: 43.1200, category: "ancient" },
+  { name: "Başur Höyük (Siirt)", lat: 37.9500, lng: 41.9500, category: "ancient" },
+  { name: "Çavuştepe (Sardurihinili, Urartu)", lat: 38.3256, lng: 43.3717, category: "ancient" },
+  { name: "Hacılar Höyük (Neolitik)", lat: 37.7545, lng: 29.9710, category: "ancient" },
+  { name: "Suberde Höyük (Erken Neolitik)", lat: 37.3900, lng: 32.4000, category: "ancient" },
+  { name: "Bademağacı Höyüğü (Antalya)", lat: 37.0666, lng: 30.6655, category: "ancient" },
+  { name: "Kumtepe (Pre-Troya)", lat: 39.9670, lng: 26.2230, category: "ancient" },
+  { name: "Gavurkale (Hitit Kaya Anıtı)", lat: 39.4600, lng: 32.6200, category: "ancient" },
+  { name: "Delice (Ankara-Kırıkkale, Frigya Sınırı)", lat: 39.8956, lng: 33.5447, category: "ancient" },
+  { name: "Topkapı Sarayı (Osmanlı)", lat: 41.0126, lng: 28.9844, category: "ottoman" },
+  { name: "Süleymaniye Camii (Osmanlı)", lat: 41.0165, lng: 28.9641, category: "ottoman" },
+  { name: "Bursa Ulu Camii (Osmanlı)", lat: 40.1838, lng: 29.0624, category: "ottoman" },
+  { name: "Edirne Selimiye Camii (Osmanlı)", lat: 41.6771, lng: 26.5550, category: "ottoman" },
+  { name: "Ishak Paşa Sarayı (Osmanlı)", lat: 39.5175, lng: 44.1519, category: "ottoman" },
+  { name: "Manisa Muradiye Camii (Osmanlı)", lat: 38.6111, lng: 27.4269, category: "ottoman" },
+  { name: "Divriği Ulu Camii ve Darüşşifası (Selçuklu)", lat: 39.3739, lng: 38.1074, category: "ottoman" },
+  { name: "Konya Alaeddin Camii (Selçuklu)", lat: 37.8715, lng: 32.4849, category: "ottoman" },
+  { name: "Kayseri Hunat Hatun Külliyesi (Selçuklu)", lat: 38.7235, lng: 35.4875, category: "ottoman" },
+  { name: "Sivas Gök Medrese (Selçuklu)", lat: 39.7500, lng: 37.0167, category: "ottoman" },
+  { name: "Erzurum Çifte Minareli Medrese (Selçuklu)", lat: 39.9043, lng: 41.2679, category: "ottoman" },
+  { name: "Niğde Alaaddin Camii (Selçuklu)", lat: 37.9690, lng: 34.6826, category: "ottoman" },
+  { name: "Karatay Medresesi, Konya (Selçuklu)", lat: 37.8718, lng: 32.4908, category: "ottoman" },
+  { name: "İnce Minareli Medrese, Konya (Selçuklu)", lat: 37.8723, lng: 32.4844, category: "ottoman" },
+  { name: "Sivas Çifte Minareli Medrese (Selçuklu)", lat: 39.7491, lng: 37.0166, category: "ottoman" },
+  { name: "Beyşehir Eşrefoğlu Camii (Selçuklu)", lat: 37.6772, lng: 31.7224, category: "ottoman" },
+  { name: "Ahlat Selçuklu Mezarlığı (Selçuklu)", lat: 38.7500, lng: 42.4935, category: "ottoman" },
+  { name: "Akşehir Taş Medrese (Selçuklu)", lat: 38.3566, lng: 31.4184, category: "ottoman" },
+  { name: "Kayseri Gevher Nesibe Darüşşifası (Selçuklu)", lat: 38.7242, lng: 35.4877, category: "ottoman" },
+  { name: "Alanya Kalesi (Selçuklu)", lat: 36.5449, lng: 31.9982, category: "ottoman" },
+  { name: "Sultan Hanı, Aksaray (Selçuklu)", lat: 38.2458, lng: 33.4989, category: "ottoman" },
+  { name: "Ağzıkara Han, Aksaray (Selçuklu)", lat: 38.3824, lng: 34.0633, category: "ottoman" },
+  { name: "İncesu Kervansarayı (Selçuklu)", lat: 38.5342, lng: 35.3867, category: "ottoman" },
+  { name: "Tokat Gök Medrese (Selçuklu)", lat: 40.3136, lng: 36.5525, category: "ottoman" },
+  { name: "İstanbul (Osmanlı Başkenti)", lat: 41.0082, lng: 28.9784, category: "ottoman" },
+  { name: "Edirne (Osmanlı Başkenti)", lat: 41.6689, lng: 26.5587, category: "ottoman" },
+  { name: "Bursa (Osmanlı Başkenti)", lat: 40.1828, lng: 29.0665, category: "ottoman" },
+  { name: "Üsküdar Mihrimah Sultan Camii (Osmanlı)", lat: 41.0226, lng: 29.0156, category: "ottoman" },
+  { name: "Eyüp Sultan Camii (Osmanlı)", lat: 41.0505, lng: 28.9351, category: "ottoman" },
+  { name: "Rüstem Paşa Camii (Osmanlı)", lat: 41.0162, lng: 28.9703, category: "ottoman" },
+  { name: "Küçük Ayasofya Camii (Osmanlı)", lat: 41.0045, lng: 28.9759, category: "ottoman" },
+  { name: "Haseki Külliyesi (Osmanlı)", lat: 41.0104, lng: 28.9497, category: "ottoman" },
+  { name: "Sokullu Mehmet Paşa Camii, Kadırga (Osmanlı)", lat: 41.0043, lng: 28.9761, category: "ottoman" },
+  { name: "İshak Çelebi Camii, Manisa (Osmanlı)", lat: 38.6172, lng: 27.4201, category: "ottoman" },
+  { name: "Sarayburnu (Osmanlı Saray Bölgesi)", lat: 41.0145, lng: 28.9843, category: "ottoman" },
+    { name: "Mevlana Türbesi (Selçuklu)", lat: 37.8715, lng: 32.5042, category: "ottoman" },
+  { name: "Karaman Hatuniye Medresesi (Selçuklu)", lat: 37.1803, lng: 33.2168, category: "ottoman" },
+  { name: "Ertuğrul Gazi Türbesi, Söğüt (Osmanlı)", lat: 40.0127, lng: 30.1748, category: "ottoman" },
+  { name: "Osman Gazi Türbesi, Bursa (Osmanlı)", lat: 40.1865, lng: 29.0635, category: "ottoman" },
+  { name: "Orhan Gazi Türbesi, Bursa (Osmanlı)", lat: 40.1867, lng: 29.0634, category: "ottoman" },
+  { name: "Rumeli Hisarı (Osmanlı)", lat: 41.0841, lng: 29.0536, category: "ottoman" },
+  { name: "Anadolu Hisarı (Osmanlı)", lat: 41.0748, lng: 29.0728, category: "ottoman" },
+  { name: "Van Kalesi (Osmanlı)", lat: 38.5012, lng: 43.3663, category: "ottoman" },
+  { name: "Aksaray Kervansarayı (Selçuklu)", lat: 38.4190, lng: 34.0205, category: "ottoman" },
+  { name: "Karatay Medresesi (Selçuklu)", lat: 37.8714, lng: 32.4845, category: "ottoman" },
+  { name: "Çifte Minareli Medrese (Selçuklu)", lat: 39.7002, lng: 41.3195, category: "ottoman" },
+  { name: "Divriği Ulu Camii (Selçuklu)", lat: 39.0667, lng: 38.0850, category: "ottoman" },
+  { name: "Sultan Hanı (Selçuklu)", lat: 37.9500, lng: 34.6198, category: "ottoman" },
+  { name: "Alanya Kalesi (Selçuklu)", lat: 36.5435, lng: 31.9980, category: "ottoman" },
+  { name: "Konya Alaeddin Camii (Selçuklu)", lat: 37.8730, lng: 32.4844, category: "ottoman" },
+  { name: "Kütahya Ulu Camii (Selçuklu)", lat: 39.4160, lng: 29.9812, category: "ottoman" },
+  { name: "Beyşehir Gölü (Selçuklu)", lat: 37.5783, lng: 31.4350, category: "ottoman" },
+  { name: "Seyitgazi Türbesi (Selçuklu)", lat: 39.4565, lng: 30.8040, category: "ottoman" },
+  { name: "İnce Minareli Medrese (Selçuklu)", lat: 37.8720, lng: 32.4846, category: "ottoman" },
+  { name: "Sultan Hanı (Selçuklu)", lat: 37.9500, lng: 34.6198, category: "ottoman" },
+  { name: "Ahlat Selçuklu Mezarlığı (Selçuklu)", lat: 39.2475, lng: 42.3250, category: "ottoman" },
+  { name: "Kızılkule (Selçuklu)", lat: 36.5431, lng: 31.9990, category: "ottoman" },
+  { name: "Beyazıt Külliyesi (Selçuklu)", lat: 39.9334, lng: 32.8597, category: "ottoman" },
+  { name: "Çankırı Kalesi (Selçuklu)", lat: 40.6010, lng: 33.6165, category: "ottoman" },
+   { name: "Zazadin Hanı, Konya (Selçuklu)", lat: 37.9805, lng: 32.6428, category: "ottoman" },
+  { name: "Sultan Hanı, Kayseri (Selçuklu)", lat: 38.6271, lng: 35.4695, category: "ottoman" },
+  { name: "Koza Han, Bursa (Osmanlı)", lat: 40.1832, lng: 29.0664, category: "ottoman" },
+  { name: "Rüstem Paşa Hanı, Edirne (Osmanlı)", lat: 41.6769, lng: 26.5566, category: "ottoman" },
+  { name: "Bayezid Külliyesi, Edirne (Osmanlı)", lat: 41.6581, lng: 26.5594, category: "ottoman" },
+  { name: "Süleymaniye Külliyesi, İstanbul (Osmanlı)", lat: 41.0165, lng: 28.9641, category: "ottoman" },
+  { name: "Yıldırım Külliyesi, Bursa (Osmanlı)", lat: 40.1850, lng: 29.0816, category: "ottoman" },
+  { name: "Ankara Kalesi (Selçuklu/Osmanlı)", lat: 39.9419, lng: 32.8597, category: "ottoman" },
+  { name: "Sinop Kalesi (Selçuklu/Osmanlı)", lat: 42.0261, lng: 35.1518, category: "ottoman" },
+  { name: "Mamure Kalesi, Mersin (Selçuklu/Osmanlı)", lat: 36.1458, lng: 32.8628, category: "ottoman" },
+  { name: "Harput Kalesi, Elazığ (Selçuklu/Osmanlı)", lat: 38.6832, lng: 39.2304, category: "ottoman" },
+  { name: "Karatay Hanı, Kayseri (Selçuklu)", lat: 38.5600, lng: 35.2805, category: "ottoman" },
+  { name: "Aksaray Zinciriye Medresesi (Selçuklu)", lat: 38.3727, lng: 34.0296, category: "ottoman" },
+  { name: "Erzurum Yakutiye Medresesi (İlhanlı/Selçuklu etkisi)", lat: 39.9056, lng: 41.2676, category: "ottoman" },
+  { name: "Kırşehir Cacabey Medresesi (Selçuklu)", lat: 39.1456, lng: 34.1612, category: "ottoman" },
+  { name: "Tokat Yağıbasan Medresesi (Selçuklu)", lat: 40.3137, lng: 36.5542, category: "ottoman" },
+  { name: "Bitlis Ulu Camii (Selçuklu)", lat: 38.3989, lng: 42.1120, category: "ottoman" },
+  { name: "Ahlat Emir Bayındır Kümbeti (Selçuklu)", lat: 38.7387, lng: 42.4905, category: "ottoman" },
+  { name: "Yeni Camii, Eminönü (Osmanlı)", lat: 41.0171, lng: 28.9734, category: "ottoman" },
+  { name: "Dolmabahçe Sarayı (Osmanlı)", lat: 41.0390, lng: 29.0006, category: "ottoman" },
+  { name: "Beylerbeyi Sarayı (Osmanlı)", lat: 41.0430, lng: 29.0416, category: "ottoman" },
+  { name: "İshak Paşa Sarayı, Ağrı (Osmanlı)", lat: 39.5175, lng: 44.1519, category: "ottoman" },
+  { name: "Sokollu Mehmet Paşa Camii, Lüleburgaz (Osmanlı)", lat: 41.4057, lng: 27.3594, category: "ottoman" },
+  { name: "Rüstem Paşa Camii, Tekirdağ (Osmanlı)", lat: 40.9784, lng: 27.5110, category: "ottoman" },
+  { name: "Muradiye Külliyesi, Bursa (Osmanlı)", lat: 40.1910, lng: 29.0464, category: "ottoman" },
+  { name: "Haseki Hürrem Sultan Hamamı (Osmanlı)", lat: 41.0096, lng: 28.9777, category: "ottoman" },
+  { name: "Şehzade Camii (Osmanlı)", lat: 41.0151, lng: 28.9553, category: "ottoman" },
+  { name: "Mihrimah Sultan Camii, Edirnekapı (Osmanlı)", lat: 41.0243, lng: 28.9421, category: "ottoman" },
+  { name: "Hatuniye Camii, Manisa (Osmanlı)", lat: 38.6125, lng: 27.4275, category: "ottoman" },
+ { name: "İnce Minareli Medrese Kümbeti, Konya (Selçuklu)", lat: 37.8724, lng: 32.4842, category: "ottoman" },
+  { name: "Gevher Nesibe Tıp Medresesi Kümbeti, Kayseri (Selçuklu)", lat: 38.7241, lng: 35.4876, category: "ottoman" },
+  { name: "Tuzhisar (Kayseri) Seyyid Burhaneddin Türbesi (Selçuklu)", lat: 38.7201, lng: 35.4848, category: "ottoman" },
+  { name: "Buruciye Medresesi, Sivas (Selçuklu)", lat: 39.7473, lng: 37.0152, category: "ottoman" },
+  { name: "Şifaiye Medresesi, Sivas (Selçuklu)", lat: 39.7471, lng: 37.0164, category: "ottoman" },
+  { name: "Aksaray Sultan Hanı (Selçuklu)", lat: 38.2457, lng: 33.4988, category: "ottoman" },
+  { name: "Denizli Akhan Kervansarayı (Selçuklu)", lat: 37.7983, lng: 29.1122, category: "ottoman" },
+  { name: "Kadıoğlu Medresesi, Tokat (Selçuklu)", lat: 40.3170, lng: 36.5535, category: "ottoman" },
+  { name: "Çorum Melikgazi Türbesi (Selçuklu)", lat: 40.5540, lng: 34.9607, category: "ottoman" },
+  { name: "Muradiye Camii, Edirne (Osmanlı)", lat: 41.6781, lng: 26.5582, category: "ottoman" },
+  { name: "Fatih Camii, İstanbul (Osmanlı)", lat: 41.0190, lng: 28.9496, category: "ottoman" },
+  { name: "İmaret Camii, Tire (Osmanlı)", lat: 38.0911, lng: 27.7353, category: "ottoman" },
+  { name: "Külliye Camii, Amasya (Osmanlı)", lat: 40.6532, lng: 35.8352, category: "ottoman" },
+  { name: "Kurşunlu Camii ve Külliyesi, Eskişehir (Osmanlı)", lat: 39.7754, lng: 30.5206, category: "ottoman" },
+  { name: "Yavuz Selim Camii, İstanbul (Osmanlı)", lat: 41.0296, lng: 28.9510, category: "ottoman" },
+  { name: "İshak Paşa Camii, İstanbul (Osmanlı)", lat: 41.0022, lng: 28.9617, category: "ottoman" },
+  { name: "Hamidiye Külliyesi, Isparta (Osmanlı)", lat: 37.7648, lng: 30.5565, category: "ottoman" },
+  { name: "Manisa Hafsa Sultan Darüşşifası (Osmanlı)", lat: 38.6144, lng: 27.4252, category: "ottoman" },
+  { name: "Edirne II. Bayezid Darüşşifası (Osmanlı)", lat: 41.6581, lng: 26.5594, category: "ottoman" },
+  { name: "Eşrefoğlu Medresesi, Beyşehir (Selçuklu)", lat: 37.6767, lng: 31.7220, category: "ottoman" },
+  { name: "Tercan Mama Hatun Kervansarayı ve Türbesi (Selçuklu)", lat: 39.7614, lng: 40.3850, category: "ottoman" },
+  { name: "Ermenek Ulu Camii (Selçuklu)", lat: 36.6406, lng: 32.8871, category: "ottoman" },
+  { name: "Kızılören Han, Konya (Selçuklu)", lat: 37.6769, lng: 32.3295, category: "ottoman" },
+  { name: "Sille Subaşı Hamamı ve Camii (Selçuklu)", lat: 37.9337, lng: 32.4364, category: "ottoman" },
+  { name: "Tokat Halef Sultan Türbesi (Selçuklu)", lat: 40.3124, lng: 36.5536, category: "ottoman" },
+  { name: "Afyon Ulu Camii (Selçuklu)", lat: 38.7573, lng: 30.5387, category: "ottoman" },
+  { name: "Kırşehir Ahi Evran Camii ve Türbesi (Selçuklu)", lat: 39.1458, lng: 34.1609, category: "ottoman" },
+  { name: "Tarsus Makam Camii (Osmanlı)", lat: 36.9156, lng: 34.8949, category: "ottoman" },
+  { name: "Balabanbey Kalesi ve Camii, Bursa (Osmanlı)", lat: 40.1832, lng: 29.0601, category: "ottoman" },
+  { name: "İznik Yeşil Cami (Osmanlı)", lat: 40.4286, lng: 29.7219, category: "ottoman" },
+  { name: "Şehzade Mustafa Medresesi, Manisa (Osmanlı)", lat: 38.6101, lng: 27.4241, category: "ottoman" },
+  { name: "Amasya II. Bayezid Külliyesi (Osmanlı)", lat: 40.6521, lng: 35.8328, category: "ottoman" },
+  { name: "Çorum Hıdırlık Camii ve Türbesi (Osmanlı)", lat: 40.5471, lng: 34.9562, category: "ottoman" },
+  { name: "Ünye Yalı Camii (Osmanlı)", lat: 41.1295, lng: 37.2857, category: "ottoman" },
+  { name: "Beypazarı Sultan Alaeddin Camii (Osmanlı)", lat: 40.1689, lng: 31.9217, category: "ottoman" },
+  { name: "Kütahya Ulu Camii (Osmanlı)", lat: 39.4216, lng: 29.9852, category: "ottoman" },
+  { name: "Tire Necip Paşa Kütüphanesi ve Medresesi (Osmanlı)", lat: 38.0928, lng: 27.7355, category: "ottoman" },
+  { name: "Hacı Bayram Camii ve Türbesi, Ankara (Osmanlı)", lat: 39.9449, lng: 32.8576, category: "ottoman" },
+  { name: "Küllük Medresesi, Erzincan (Selçuklu)", lat: 39.7457, lng: 39.4919, category: "ottoman" },
+  { name: "Karaman Hatuniye Medresesi (Selçuklu)", lat: 37.1754, lng: 33.2133, category: "ottoman" },
+  { name: "Alaeddin Camii, Niğde (Selçuklu)", lat: 37.9690, lng: 34.6826, category: "ottoman" },
+  { name: "Ulu Camii, Malatya (Selçuklu)", lat: 38.3547, lng: 38.3093, category: "ottoman" },
+  { name: "Taçkapı Medresesi, Erzurum (Selçuklu)", lat: 39.9051, lng: 41.2678, category: "ottoman" },
+  { name: "Kayseri Sahabiye Medresesi (Selçuklu)", lat: 38.7250, lng: 35.4872, category: "ottoman" },
+  { name: "Yivli Minare Camii, Antalya (Selçuklu)", lat: 36.8868, lng: 30.7056, category: "ottoman" },
+  { name: "Akşehir Ulu Camii (Selçuklu)", lat: 38.3554, lng: 31.4182, category: "ottoman" },
+  { name: "Ermenek Hatuniye Medresesi (Selçuklu)", lat: 36.6394, lng: 32.8877, category: "ottoman" },
+  { name: "Sırçalı Medrese, Konya (Selçuklu)", lat: 37.8729, lng: 32.4922, category: "ottoman" },
+  { name: "Amasya Halvetiye Tekkesi ve Camii (Selçuklu)", lat: 40.6535, lng: 35.8344, category: "ottoman" },
+  { name: "Divriği Kale Camii (Selçuklu)", lat: 39.3722, lng: 38.1221, category: "ottoman" },
+  { name: "İzmir Hisar Camii (Osmanlı)", lat: 38.4191, lng: 27.1275, category: "ottoman" },
+  { name: "Gaziantep Boyacı Camii (Osmanlı)", lat: 37.0666, lng: 37.3806, category: "ottoman" },
+  { name: "Kastamonu Nasrullah Camii (Osmanlı)", lat: 41.3896, lng: 33.7825, category: "ottoman" },
+  { name: "Bolu Yıldırım Bayezid Camii (Osmanlı)", lat: 40.7330, lng: 31.6089, category: "ottoman" },
+  { name: "Tokat Ali Paşa Camii (Osmanlı)", lat: 40.3133, lng: 36.5531, category: "ottoman" },
+  { name: "Gelibolu Bayraklı Baba Türbesi (Osmanlı)", lat: 40.4165, lng: 26.6708, category: "ottoman" },
+  { name: "Mardin Latifiye Camii (Osmanlı)", lat: 37.3126, lng: 40.7370, category: "ottoman" },
+  { name: "Samsun Büyük Cami (Osmanlı)", lat: 41.2867, lng: 36.3342, category: "ottoman" },
+  { name: "Rize Gülbahar Hatun Camii (Osmanlı)", lat: 41.0260, lng: 40.5171, category: "ottoman" },
+  { name: "Çankırı Ulu Camii (Selçuklu)", lat: 40.6033, lng: 33.6152, category: "ottoman" },
+  { name: "Çarşı Camii, Kastamonu (Selçuklu)", lat: 41.3831, lng: 33.7822, category: "ottoman" },
+  { name: "Erzurum Ulu Camii (Selçuklu)", lat: 39.9050, lng: 41.2705, category: "ottoman" },
+  { name: "Bitlis El Aman Hanı (Selçuklu)", lat: 38.3858, lng: 42.1019, category: "ottoman" },
+  { name: "Muş Ulu Camii (Selçuklu)", lat: 38.7441, lng: 41.4967, category: "ottoman" },
+  { name: "Bayburt Ulu Camii (Selçuklu)", lat: 40.2590, lng: 40.2278, category: "ottoman" },
+  { name: "Aksaray Eğri Minare (Selçuklu)", lat: 38.3732, lng: 34.0283, category: "ottoman" },
+  { name: "Malatya Battalgazi Ulu Camii (Selçuklu)", lat: 38.4876, lng: 38.3554, category: "ottoman" },
+  { name: "Urfa Rızvaniye Camii ve Medresesi (Osmanlı)", lat: 37.1584, lng: 38.7917, category: "ottoman" },
+  { name: "Diyarbakır Hasan Paşa Hanı (Osmanlı)", lat: 37.9137, lng: 40.2416, category: "ottoman" },
+  { name: "Siirt Ulu Camii (Osmanlı)", lat: 37.9302, lng: 41.9446, category: "ottoman" },
+  { name: "Adana Ulu Camii ve Külliyesi (Osmanlı)", lat: 37.0039, lng: 35.3235, category: "ottoman" },
+  { name: "Gaziantep Tahmis Camii (Osmanlı)", lat: 37.0632, lng: 37.3813, category: "ottoman" },
+  { name: "Kilis Tekye Camii (Osmanlı)", lat: 36.7163, lng: 37.1171, category: "ottoman" },
+  { name: "Tokat Ulu Camii (Osmanlı)", lat: 40.3135, lng: 36.5534, category: "ottoman" },
+  { name: "Giresun Kale Camii (Osmanlı)", lat: 40.9165, lng: 38.3932, category: "ottoman" },
+  { name: "Amasra Fatih Camii (Osmanlı)", lat: 41.7467, lng: 32.3862, category: "ottoman" },
+  { name: "Ordu Süleyman Paşa Camii (Osmanlı)", lat: 40.9833, lng: 37.8762, category: "ottoman" },
+  { name: "Amasya Gök Medrese (Selçuklu)", lat: 40.6500, lng: 35.8375, category: "ottoman" },
+  { name: "Sivas Gök Medrese (Selçuklu)", lat: 39.7456, lng: 37.0167, category: "ottoman" },
+  { name: "Çorum Ulu Camii (Selçuklu)", lat: 40.5533, lng: 34.9600, category: "ottoman" },
+  { name: "Erzincan Mama Hatun Kervansarayı (Selçuklu)", lat: 39.7420, lng: 39.4900, category: "ottoman" },
+  { name: "Manisa Muradiye Camii (Osmanlı)", lat: 38.6175, lng: 27.4331, category: "ottoman" },
+  { name: "Konya Sille Köprüsü (Selçuklu)", lat: 37.9374, lng: 32.4316, category: "ottoman" },
+  { name: "Kayseri Hunat Hatun Külliyesi (Selçuklu)", lat: 38.7311, lng: 35.4992, category: "ottoman" },
+  { name: "Malatya Ulu Camii (Selçuklu)", lat: 38.3548, lng: 38.3087, category: "ottoman" },
+  { name: "Tokat Yağıbasan Medresesi (Selçuklu)", lat: 40.3140, lng: 36.5538, category: "ottoman" },
+  { name: "Aksaray Zinciriye Medresesi (Selçuklu)", lat: 38.3710, lng: 34.0285, category: "ottoman" },
+  { name: "Bursa Emir Sultan Camii (Osmanlı)", lat: 40.1825, lng: 29.0680, category: "ottoman" },
+  { name: "Edirne Üç Şerefeli Camii (Osmanlı)", lat: 41.6723, lng: 26.5628, category: "ottoman" },
+  { name: "Amasya II. Beyazid Külliyesi (Osmanlı)", lat: 40.6540, lng: 35.8340, category: "ottoman" },
+  { name: "Kütahya Ulu Camii (Osmanlı)", lat: 39.4200, lng: 29.9850, category: "ottoman" },
+  { name: "İznik Yeşil Türbe (Osmanlı)", lat: 40.4250, lng: 29.7180, category: "ottoman" },
+  { name: "Divriği Ulu Camii ve Darüşşifası (Selçuklu)", lat: 39.3722, lng: 38.1241, category: "ottoman" },
+  { name: "Kayseri Gevher Nesibe Darüşşifası (Selçuklu)", lat: 38.7250, lng: 35.4890, category: "ottoman" },
+  { name: "Beyşehir Eşrefoğlu Camii (Selçuklu)", lat: 37.6739, lng: 31.7210, category: "ottoman" },
+  { name: "Malatya Battalgazi Ulu Camii (Selçuklu)", lat: 38.4876, lng: 38.3533, category: "ottoman" },
+  { name: "Kırşehir Cacabey Medresesi (Selçuklu)", lat: 39.1456, lng: 34.1600, category: "ottoman" },
+  { name: "Tokat Kadıoğlu Medresesi (Selçuklu)", lat: 40.3170, lng: 36.5540, category: "ottoman" },
+  { name: "Kayseri Hunat Hatun Camii ve Külliyesi (Selçuklu)", lat: 38.7311, lng: 35.5000, category: "ottoman" },
+  { name: "Edirne Eski Cami (Osmanlı)", lat: 41.6770, lng: 26.5630, category: "ottoman" },
+  { name: "Bursa Yeşil Camii ve Külliyesi (Osmanlı)", lat: 40.1850, lng: 29.0620, category: "ottoman" },
+  { name: "Amasya Hazeranlar Konağı (Osmanlı)", lat: 40.6530, lng: 35.8320, category: "ottoman" },
+  { name: "Manisa Muradiye Camii (Osmanlı)", lat: 38.6150, lng: 27.4320, category: "ottoman" },
+  { name: "Konya Sille Köprüsü (Selçuklu)", lat: 37.9360, lng: 32.4340, category: "ottoman" },
+  { name: "Ankara Hacı Bayram Camii (Osmanlı)", lat: 39.9450, lng: 32.8560, category: "ottoman" },
+  { name: "Sivas Buruciye Medresesi (Selçuklu)", lat: 39.7470, lng: 37.0170, category: "ottoman" },
+  { name: "Beypazarı Tarihi Evleri ve Camileri (Osmanlı)", lat: 40.1660, lng: 31.9200, category: "ottoman" },
+   { name: "Sivas Şifaiye Medresesi (Selçuklu)", lat: 39.7472, lng: 37.0158, category: "ottoman" },
+  { name: "Malatya Kurşunlu Camii (Selçuklu)", lat: 38.3556, lng: 38.3123, category: "ottoman" },
+  { name: "Karatay Medresesi, Konya (Selçuklu)", lat: 37.8716, lng: 32.4900, category: "ottoman" },
+  { name: "Hatuniye Külliyesi, Karaman (Selçuklu)", lat: 37.1750, lng: 33.2145, category: "ottoman" },
+  { name: "Elâzığ Harput Ulu Camii (Selçuklu)", lat: 38.6740, lng: 39.2270, category: "ottoman" },
+  { name: "Aksaray Sultan Hanı (Selçuklu)", lat: 38.2455, lng: 33.4990, category: "ottoman" },
+  { name: "Sivas Buruciye Medresesi (Selçuklu)", lat: 39.7469, lng: 37.0155, category: "ottoman" },
+  { name: "Manisa Muradiye Camii (Osmanlı)", lat: 38.6173, lng: 27.4334, category: "ottoman" },
+  { name: "Edirne Üç Şerefeli Camii (Osmanlı)", lat: 41.6718, lng: 26.5620, category: "ottoman" },
+  { name: "Amasya II. Beyazid Külliyesi (Osmanlı)", lat: 40.6545, lng: 35.8335, category: "ottoman" },
+  { name: "İznik Yeşil Türbe (Osmanlı)", lat: 40.4257, lng: 29.7182, category: "ottoman" },
+  { name: "Gaziantep Tahmis Camii (Osmanlı)", lat: 37.0625, lng: 37.3805, category: "ottoman" },
+  { name: "Kütahya Ulu Camii (Osmanlı)", lat: 39.4212, lng: 29.9858, category: "ottoman" },
+  { name: "Tokat Kadıoğlu Medresesi (Selçuklu)", lat: 40.3175, lng: 36.5539, category: "ottoman" },
+  { name: "Afyon Ulu Camii (Selçuklu)", lat: 38.7570, lng: 30.5385, category: "ottoman" },
+  { name: "Niğde Ulu Camii (Selçuklu)", lat: 37.9670, lng: 34.6830, category: "ottoman" },
+  { name: "Sille Aya Eleni Kilisesi ve Camii (Selçuklu/Osmanlı)", lat: 37.9335, lng: 32.4370, category: "ottoman" },
+  { name: "Diyarbakır Ulu Camii (Osmanlı)", lat: 37.9142, lng: 40.2408, category: "ottoman" },
+  { name: "Çorum Ulu Camii (Selçuklu)", lat: 40.5530, lng: 34.9605, category: "ottoman" },
+  { name: "Kastamonu Nasrullah Camii (Osmanlı)", lat: 41.3892, lng: 33.7830, category: "ottoman" },
+  { name: "Bolu Yıldırım Bayezid Camii (Osmanlı)", lat: 40.7325, lng: 31.6095, category: "ottoman" },
+  { name: "Gümüşhane Santa Harutyun Kilisesi (Osmanlı Dönemi)", lat: 40.4620, lng: 39.4780, category: "ottoman" },
+  { name: "Afyon İmaret Camii (Selçuklu)", lat: 38.7575, lng: 30.5380, category: "ottoman" },
+  { name: "Bitlis Ulu Camii (Selçuklu)", lat: 38.3960, lng: 42.1105, category: "ottoman" },
+  { name: "Ordu Yalı Camii (Osmanlı)", lat: 40.9820, lng: 37.8770, category: "ottoman" },
+  { name: "Şanlıurfa Rizvaniye Camii (Osmanlı)", lat: 37.1580, lng: 38.7920, category: "ottoman" },
+  { name: "Siirt Ulu Camii (Osmanlı)", lat: 37.9305, lng: 41.9445, category: "ottoman" },
+  { name: "Giresun Kale Camii (Osmanlı)", lat: 40.9160, lng: 38.3925, category: "ottoman" },
+  { name: "Tokat Ulu Camii (Osmanlı)", lat: 40.3130, lng: 36.5530, category: "ottoman" },
+  { name: "Samsun Büyük Cami (Osmanlı)", lat: 41.2860, lng: 36.3345, category: "ottoman" },
+  
+    ];
+
+    document.getElementById("draw-emergency-circle").addEventListener("click", () => {
+      const selectedCity = document.getElementById('emergency-location').options[document.getElementById('emergency-location').selectedIndex];
+      const lat = parseFloat(selectedCity.getAttribute('data-lat'));
+      const lng = parseFloat(selectedCity.getAttribute('data-lng'));
+      const cityName = selectedCity.value.charAt(0).toUpperCase() + selectedCity.value.slice(1);
+
+      // Eğer çember varsa kaldır
+      if (emergencyCircle) {
+        map.removeLayer(emergencyCircle);
+      }
+
+      // 50 km çapında çember çiz
+      emergencyCircle = L.circle([lat, lng], {
+        color: 'red',
+        radius: 50000,  // 50 km yarıçap
+        fillOpacity: 0.1
+      }).addTo(map).bindPopup(`${cityName} Şehri`).openPopup();
+
+      // Şehre zoom yap
+      map.setView([lat, lng], 10);
+
+      // Haritayı temizle ve tarihi yerleri ekle
+      clearHistoricalMarkers();
+      addHistoricalMarkers();
+    });
+
+    function addHistoricalMarkers() {
+      const selectedCategory = document.getElementById('category-select').value;
+      historicalSites.forEach(site => {
+        if (selectedCategory === "all" || site.category === selectedCategory) {
+          const marker = L.marker([site.lat, site.lng]).addTo(map)
+            .bindPopup(site.name);
+          historicalMarkers.push(marker);
+        }
+      });
+    }
+
+    function clearHistoricalMarkers() {
+      historicalMarkers.forEach(marker => {
+        map.removeLayer(marker);
+      });
+      historicalMarkers = [];
+    }
+
+    document.getElementById("clear-map").addEventListener("click", () => {
+      if (emergencyCircle) {
+        map.removeLayer(emergencyCircle);
+        emergencyCircle = null;
+      }
+      clearHistoricalMarkers();
+    });
+  </script>
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>
